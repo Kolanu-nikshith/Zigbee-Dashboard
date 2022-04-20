@@ -1,0 +1,403 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+{{ super() }}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+function myFunction(v) {
+  var x = document.getElementById(v);
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+
+{% if current_user.is_authenticated %}
+
+{##}
+{#<nav class="navbar navbar-default">#}
+{#  <div class="container-fluid">#}
+{#    <ul class="nav navbar-nav">#}
+{#      <li class="active"><a href="#">Home</a></li>#}
+{#      <li><a href="#">Page 1</a></li>#}
+{#      <li><a href="#">Page 2</a></li>#}
+{#      <li><a href="#">Page 3</a></li>#}
+{#    </ul>#}
+{#  </div>#}
+{#</nav>#}
+
+
+
+
+
+<ul class="nav nav-tabs">
+  <li class="active"><a data-toggle="tab" href="#home">MQ2 Smoke Sensor</a></li>
+  <li><a data-toggle="tab" href="#menu1">MQ7 CO Sensor</a></li>
+  <li><a data-toggle="tab" href="#menu2">LM75 Temperature Sensor</a></li>
+</ul>
+
+<div class="tab-content">
+  <div id="home" class="tab-pane fade in active">
+    <h3>MQ2 Smoke Sensor</h3>
+      <p> Below is the list of latest 10 readings.</p>
+
+    <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Sensor ID</th>
+        <th>Smoke</th>
+        <th>CO</th>
+        <th>LPG</th>
+      </tr>
+    </thead>
+    <tbody>
+     {%-  for todo in mqs10 %}
+      <tr>
+        <td>{{ todo[0] }}</td>
+        <td>{{ todo[1] }}</td>
+        <td>{{ todo[2] }}</td>
+        <td>{{ todo[3] }}</td>
+        <td>{{ todo[4] }}</td>
+      </tr>
+      {%- endfor %}
+    </tbody>
+  </table>
+<button class="btn btn-success" onclick="myFunction('mq2div')">Click to show full list of readings</button>
+
+<div id="mq2div" style="display: none">
+<br>
+
+<div class="input-group" style="margin-left: 20%; margin-right: 20%;">
+<input class="form-control" id="mq2input" type="text" placeholder="Search..">
+
+    <div class="input-group-btn">
+      <button class="btn btn-default" type="submit">
+        <i class="glyphicon glyphicon-search"></i>
+      </button>
+    </div>
+  </div>
+
+    <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Sensor ID</th>
+        <th>Smoke</th>
+        <th>CO</th>
+        <th>LPG</th>
+      </tr>
+    </thead>
+    <tbody id="mq2filter">
+     {%-  for todo in mqs %}
+      <tr>
+        <td>{{ todo[0] }}</td>
+        <td>{{ todo[1] }}</td>
+        <td>{{ todo[2] }}</td>
+        <td>{{ todo[3] }}</td>
+        <td>{{ todo[4] }}</td>
+      </tr>
+      {%- endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+
+  </div>
+  <div id="menu1" class="tab-pane fade">
+    <h3>MQ7</h3>
+      <p> Below is the list of latest 10 readings.</p>
+        <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Sensor ID</th>
+        <th>CO</th>
+      </tr>
+    </thead>
+    <tbody>
+         {%- for todo in mqc10 %}
+      <tr>
+        <td>{{ todo[0] }}</td>
+        <td>{{ todo[1] }}</td>
+        <td style="color:#555;">{{ todo[2] }}</td>
+      </tr>
+      {%- endfor %}
+
+    </tbody>
+  </table>
+  <button class="btn btn-success" onclick="myFunction('mq7div')">Click to show full list of readings</button>
+
+<div id="mq7div" style="display: none">
+<br>
+
+<div class="input-group" style="margin-left: 20%; margin-right: 20%;">
+<input class="form-control" id="mq7input" type="text" placeholder="Search..">
+
+    <div class="input-group-btn">
+      <button class="btn btn-default" type="submit">
+        <i class="glyphicon glyphicon-search"></i>
+      </button>
+    </div>
+  </div>
+
+
+
+        <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Sensor ID</th>
+        <th>CO</th>
+      </tr>
+    </thead>
+    <tbody id="mq7filter">
+         {%- for todo in mqc %}
+      <tr>
+        <td>{{ todo[0] }}</td>
+        <td>{{ todo[1] }}</td>
+        <td style="color: #555;"> {{ todo[2] }}</td>
+      </tr>
+      {%- endfor %}
+
+    </tbody>
+  </table>
+
+
+</div>
+
+{#      <h4> Last 1 day average: </h4>#}
+{#      <h4>Limit exceeded in last 1 day: </h4>#}
+{##}
+
+
+
+  </div>
+  <div id="menu2" class="tab-pane fade">
+    <h3>LM75</h3>
+    <p>Below is the list of latest 10 readings.
+</p>
+
+        <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Sensor ID</th>
+        <th>Temperature</th>
+      </tr>
+    </thead>
+    <tbody>
+         {%- for todo in lm10 %}
+      <tr>
+        <td>{{ todo[0] }}</td>
+        <td>{{ todo[1] }}</td>
+        <td>{{ todo[2] }}</td>
+      </tr>
+      {%- endfor %}
+
+    </tbody>
+  </table>
+    <button class="btn btn-success" onclick="myFunction('lm75div')">Click to show full list of readings</button>
+
+<div id="lm75div" style="display: none">
+<br>
+
+<div class="input-group" style="margin-left: 20%; margin-right: 20%;">
+<input class="form-control" id="lm75input" type="text" placeholder="Search..">
+
+    <div class="input-group-btn">
+      <button class="btn btn-default" type="submit">
+        <i class="glyphicon glyphicon-search"></i>
+      </button>
+    </div>
+  </div>
+
+
+        <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Sensor ID</th>
+        <th>Temperature</th>
+      </tr>
+    </thead>
+    <tbody id="lm75filter">
+         {%- for todo in lm %}
+      <tr>
+        <td>{{ todo[0] }}</td>
+        <td>{{ todo[1] }}</td>
+        <td>{{ todo[2] }}</td>
+      </tr>
+      {%- endfor %}
+
+    </tbody>
+  </table>
+
+
+</div>
+
+{#      <h4> Last 1 day average: </h4>#}
+{#      <h4>Limit exceeded in last 1 day: </h4>#}
+
+
+  </div>
+</div>
+
+<script>
+$(document).ready(function(){
+  $("#mq2input").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#mq2filter tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+
+
+$(document).ready(function(){
+  $("#mq7input").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#mq7filter tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+
+
+$(document).ready(function(){
+  $("#lm75input").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#lm75filter tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+
+</script>
+{#      {%- for todo in l %}#}
+{#          <script>#}
+{#          $(document).ready(function(){#}
+{#            $("#{{todo}}").click(function(e){#}
+{#              $("#{{todo}}panel").slideToggle("fast");#}
+{#            });#}
+{#          });#}
+{#          </script>#}
+{##}
+{#         <div id="{{todo}}" class="well">   {{ todo }}#}
+{#            <div id="{{todo}}panel" class="dispanel wells">#}
+{#                <a href="{{todo}}"><button type="button" class="btn btn-success spac" >View Plotly Dashboard</button></a>#}
+{#                <a href="dashboard/{{todo}}"><button type="button" class="btn btn-success spac" >View DC.js Dashboard</button></a>#}
+{#                <a href="datasource/{{todo}}"><button type="button" class="btn btn-primary spac" id="{{todo}}data">Add Data Sources</button></a>#}
+{##}
+{#         </div>#}
+{##}
+{#         </div>#}
+{#      {%- endfor %}#}
+
+<!-- Content Header (Page header) -->
+
+<!-- /.content -->
+{% else %}
+
+{#    <center>#}
+{#      <section class="content" style="color: white">#}
+{#        <div class="col-sm-12">#}
+{#          <h1>Zigbee Dashboard</h1>#}
+{#          {% if not current_user.is_authenticated %}#}
+{#                <br>#}
+{#                <p>#}
+{#                    <a class="btn btn-primary" href="{{ url_for('security.login') }}">Login</a>#}
+{#                </p>#}
+{#          {% endif %}#}
+{#          <br>#}
+{#          <p>#}
+{#              <a class="btn btn-primary" href="/"><i class="glyphicon glyphicon-chevron-left"></i> Back</a>#}
+{#          </p>#}
+{#        </div>#}
+{#      </section>#}
+{#    </center>#}
+    <script>
+        window.location.href = '/admin/login';
+    </script>
+    <br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br>
+{% endif %}
+{% endblock body %}
+
+
+
+{#{% extends 'admin/master.html' %}#}
+{#{% block body %}#}
+{#{{ super() }}#}
+{##}
+{#{% if current_user.is_authenticated %}#}
+{##}
+{#<!-- Content Header (Page header) -->#}
+{#<section class="content-header">#}
+{#  <h1>#}
+{#    Custom View #}
+{#    <small>This is a custom view without DB model</small>#}
+{#  </h1>#}
+{#  <ol class="breadcrumb">#}
+{#    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>#}
+{#    <li class="active">Custom</li>#}
+{#  </ol>#}
+{#</section>#}
+{##}
+{#<section class="content">#}
+{##}
+{#  <div class="row">#}
+{#    <!-- Left col -->#}
+{#    <section class="container">      #}
+{#      #}
+{#        Here you can place your custom data without a database dependence. <br>#}
+{#        Find this file in templates/admin/ as custom_index.html#}
+{##}
+{#    </section>#}
+{#    <!-- /.Left col -->#}
+{##}
+{#  </div>#}
+{#  <!-- /.row (main row) -->#}
+{##}
+{#</section>#}
+{#<!-- /.content -->#}
+{#{% else %}#}
+{##}
+{#<center>#}
+{#  <section class="content" style="color: white">#}
+{#    <div class="col-sm-12">#}
+{#      <h1>Flask-Admin example</h1>#}
+{#      <p class="lead">#}
+{#        Authentication#}
+{#      </p>#}
+{#      <p>#}
+{#        This example shows how you can use Flask-Admin in an admin template, <br> here I used AdminLTE and <a href="https://pythonhosted.org/Flask-Security/index.html" target="_blank">Flask-Security</a> for authentication.#}
+{#      </p>#}
+{#      {% if not current_user.is_authenticated %}#}
+{#      <p>You can register as a regular user, or log in as a superuser with the following credentials: <br><br>#}
+{##}
+{#        email: <b>admin</b> <br>#}
+{#        password: <b>admin</b> <br>#}
+{#        <br>#}
+{#        <p>#}
+{#          <a class="btn btn-primary" href="{{ url_for('security.login') }}">Login</a> <a class="btn btn-default" href="{{ url_for('security.register') }}">Register</a>#}
+{#        </p>#}
+{#        {% endif %}#}
+{#        <br>#}
+{#        <p>#}
+{#          <a class="btn btn-primary" href="/"><i class="glyphicon glyphicon-chevron-left"></i> Back</a>#}
+{#        </p>#}
+{#      </div>#}
+{#    </section>#}
+{#  </center>#}
+{##}
+{#  <br><br><br><br><br><br><br><br><br>#}
+{#  <br><br><br><br><br><br><br><br><br><br>#}
+{#  {% endif %}#}
+{##}
+{#  {% endblock body %}#}
