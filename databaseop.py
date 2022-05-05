@@ -3,7 +3,7 @@ import base64
 from datetime import datetime
 import random
 
-db_uri = 'mysql://root:@localhost/flat'
+db_uri = 'mysql://root:root@localhost/flat'
 engine = create_engine(db_uri, pool_pre_ping=True)
 
 def getlm75():
