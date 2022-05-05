@@ -115,7 +115,7 @@ def postdata():
 
 
 
-@app.route('/admin/data/<int:id>')
+@app.route('/admin/data/<int:id>', methods = ['GET', 'POST'])
 def dataindex(id):
     if id == 1:
         try:

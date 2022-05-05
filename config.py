@@ -10,7 +10,7 @@ except:
     print("Database error")
 # Create in-memory database
 
-SQLALCHEMY_DATABASE_URI = 'mysql://root:@localhost/flat'
+SQLALCHEMY_DATABASE_URI = 'mysql://root:root@localhost/flat'
 SQLALCHEMY_ECHO = True
 
 # # Create in-memory database
