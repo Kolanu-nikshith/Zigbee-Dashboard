@@ -1,0 +1,114 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+{{ super() }}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+function myFunction(v) {
+  var x = document.getElementById(v);
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+
+{% if current_user.is_authenticated %}
+
+  <div id="menu1" style="margin-left: 0%" align="center">
+    {#  class="tab-pane fade"#}
+    <h3 align="center">MQ7 CO Sensor</h3>
+      <h5 align="center"> Below is the list of latest 10 readings.</h5>
+        <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Sensor ID</th>
+        <th>CO</th>
+      </tr>
+    </thead>
+    <tbody>
+         {%- for todo in mqc10 %}
+      <tr>
+        <td>{{ todo[0] }}</td>
+        <td>{{ todo[1] }}</td>
+        <td>{{ todo[2] }}</td>
+      </tr>
+      {%- endfor %}
+
+    </tbody>
+  </table>
+  <button class="btn btn-success" onclick="myFunction('mq7div')">Click to show full list of readings</button>
+
+<div id="mq7div" style="display: none">
+<br>
+
+<div class="input-group" style="margin-left: 20%; margin-right: 20%;">
+<input class="form-control" id="mq7input" type="text" placeholder="Search..">
+
+    <div class="input-group-btn">
+      <button class="btn btn-default" type="submit">
+        <i class="glyphicon glyphicon-search"></i>
+      </button>
+    </div>
+  </div>
+
+
+
+        <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Sensor ID</th>
+        <th>CO</th>
+      </tr>
+    </thead>
+    <tbody id="mq7filter">
+         {%- for todo in mqc %}
+      <tr>
+        <td>{{ todo[0] }}</td>
+        <td>{{ todo[1] }}</td>
+        <td> {{ todo[2] }}</td>
+      </tr>
+      {%- endfor %}
+
+    </tbody>
+  </table>
+
+
+</div>
+
+{#      <h4> Last 1 day average: </h4>#}
+{#      <h4>Limit exceeded in last 1 day: </h4>#}
+
+  </div>
+
+<script>
+
+
+$(document).ready(function(){
+  $("#mq7input").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#mq7filter tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+
+
+
+</script>
+
+{% else %}
+
+    <script>
+        window.location.href = '/admin/login';
+    </script>
+    <br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br>
+{% endif %}
+{% endblock body %}
+

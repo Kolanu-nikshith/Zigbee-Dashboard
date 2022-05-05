@@ -101,11 +101,7 @@ class UserView(MyModelView):
         'password': PasswordField
     }
 
-#
-# class CustomView(BaseView):
-#     @expose('/')
-#     def index(self):
-#         return self.render('admin/custom_index.html')
+
 
 # Flask views
 @app.route('/')
@@ -138,7 +134,7 @@ def dataindex(id):
             op.insertlm75()
         except:
             return "Error inserting lm75 data"
-        return "success. inserted into mq2"
+        return "success. inserted into lm75"
     return "error."
     # return render_template('index.html')
 
@@ -146,13 +142,20 @@ def dataindex(id):
 class CustomView(AdminIndexView):
     @expose('/')
     def index(self):
-        lm = op.getlm75()
         mqs = op.getmq2()
+        return self.render('admin/custommq2.html',  mqs=mqs, mqs10=mqs[0:10])
+
+class Custmq7(BaseView):
+    @expose('/')
+    def index1(self):
         mqc = op.getmq7()
-        return self.render('admin/custom_index.html', lm=lm, lm10 =lm[:10], mqs=mqs, mqs10=mqs[0:10], mqc10=mqc[:10], mqc=mqc)
+        return self.render('admin/custommq7.html', mqc=mqc,  mqc10=mqc[:10])
 
-
-
+class Custlm75(BaseView):
+    @expose('/')
+    def index1(self):
+        lm = op.getlm75()
+        return self.render('admin/customlm75.html', lm=lm, lm10 =lm[:10])
 
 # Create admin
 # admin = flask_admin.Admin(
@@ -163,16 +166,19 @@ class CustomView(AdminIndexView):
 # )
 
 admin = flask_admin.Admin(app, 'Dashboard', index_view=CustomView(
-    name='My Workspaces',
+    name='MQ2',
+    menu_icon_type='fa', menu_icon_value='fa-connectdevelop',
     template='my_master.html',
     url='/admin'
 ), template_mode='bootstrap3',
                           )
 
 # Add model views
+admin.add_view(Custlm75(name="LM75", endpoint='lm75', menu_icon_type='fa', menu_icon_value='fa-connectdevelop',))
+admin.add_view(Custmq7(name="MQ7", endpoint='mq7', menu_icon_type='fa', menu_icon_value='fa-connectdevelop',))
+
 admin.add_view(MyModelView(Role, db.session, menu_icon_type='fa', menu_icon_value='fa-server', name="Roles"))
 admin.add_view(UserView(User, db.session, menu_icon_type='fa', menu_icon_value='fa-users', name="Users"))
-# admin.add_view(CustomView(name="Custom view", endpoint='custom', menu_icon_type='fa', menu_icon_value='fa-connectdevelop',))
 
 # define a context processor for merging flask-admin's template context into the
 # flask-security views.
@@ -187,4 +193,4 @@ def security_context_processor():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=5000)
+    app.run()
