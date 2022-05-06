@@ -7,7 +7,7 @@ sqlq = 'CREATE DATABASE IF NOT EXISTS flat;'
 try:
     result = engine.execute(sqlq)
 except:
-    print("Database error")
+    print("Database error!!!")
 # Create in-memory database
 
 SQLALCHEMY_DATABASE_URI = 'mysql://root:root@localhost/flat'
