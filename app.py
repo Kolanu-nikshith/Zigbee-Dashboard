@@ -117,23 +117,22 @@ def postdata():
 
 @app.route('/admin/data/<int:id>', methods = ['GET', 'POST'])
 def dataindex(id):
+    data1 = request.data.decode("utf-8")
     if id == 1:
-        data11 = str(request.data)
         try:
-            print(data11)
-            op.insertmq2()
+            op.insertmq2(data1)
         except:
             return "Error inserting mq2 data"
         return "success. inserted into mq2" + data11
     elif id == 2:
         try:
-            op.insertmq7()
+            op.insertmq7(data1)
         except:
             return "Error inserting mq7 data"
         return "success. inserted into mq7"
     elif id == 3:
         try:
-            op.insertlm75()
+            op.insertlm75(data1)
         except:
             return "Error inserting lm75 data"
         return "success. inserted into lm75"
