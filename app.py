@@ -108,10 +108,10 @@ class UserView(MyModelView):
 def index():
     return render_template('index.html')
 
-@app.route('/postdata', methods=["GET", "POST"])
-def postdata():
-    print("hellopost")
-    return "recpost"
+# @app.route('/postdata', methods=["GET", "POST"])
+# def postdata():
+#     print("hellopost")
+#     return "recpost"
 
 
 
@@ -157,13 +157,6 @@ class Custlm75(BaseView):
         lm = op.getlm75()
         return self.render('admin/customlm75.html', lm=lm, lm10 =lm[:10])
 
-# Create admin
-# admin = flask_admin.Admin(
-#     app,
-#     'My Dashboard',
-#     base_template='my_master.html',
-#     template_mode='bootstrap3',
-# )
 
 admin = flask_admin.Admin(app, 'Dashboard', index_view=CustomView(
     name='MQ2',
@@ -171,7 +164,7 @@ admin = flask_admin.Admin(app, 'Dashboard', index_view=CustomView(
     template='my_master.html',
     url='/admin'
 ), template_mode='bootstrap3',
-                          )
+)
 
 # Add model views
 admin.add_view(Custlm75(name="LM75", endpoint='lm75', menu_icon_type='fa', menu_icon_value='fa-connectdevelop',))
