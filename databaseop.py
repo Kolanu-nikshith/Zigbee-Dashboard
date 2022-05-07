@@ -64,40 +64,44 @@ def getmq7():
 
 def insertmq7(data1):
     # sql ="INSERT INTO mq2 (sensor_id, co) VALUES (%s, %s)", ("A", random.randint(1, 100))
-    data11 = data1.split(',')
-    co = data11[0].split(':')[1].strip()
-    idvalue = data11[1].split(':')[1].strip()
-    sql = 'insert into mq7 (sensor_id, co) values("' + str(idvalue) + '",'+ str(co)+');'
-    print(sql);
-    engine.execute(sql)
-    return "inserted into mq7"
-
+    try:
+        data11 = data1.split(',')
+        co = data11[0].split(':')[1].strip()
+        idvalue = data11[1].split(':')[1].strip()
+        sql = 'insert into mq7 (sensor_id, co) values("' + str(idvalue) + '",'+ str(co)+');'
+        print(sql);
+        engine.execute(sql)
+        return True
+    except:
+        return False
 
 def insertlm75(data1):
-    # sql ="INSERT INTO mq2 (sensor_id, co) VALUES (%s, %s)", ("A", random.randint(1, 100))
-    # id1 = ["living room", "Hall", "Balcony"]
-    # id2 = random.choice(id1)
-    data11 = data1.split(',')
-    tempe = data11[0].split(':')[1].strip()
-    idvalue = data11[1].split(':')[1].strip()
+    try:
+        data11 = data1.split(',')
+        tempe = data11[0].split(':')[1].strip()
+        idvalue = data11[1].split(':')[1].strip()
 
-    sql = 'insert into lm75 (sensor_id, temperature) values("' + str(idvalue) + '",'+ str(tempe)+');'
-    print(sql);
-    engine.execute(sql)
-    return "inserted into lm75"
-
+        sql = 'insert into lm75 (sensor_id, temperature) values("' + str(idvalue) + '",'+ str(tempe)+');'
+        print(sql);
+        engine.execute(sql)
+        return True
+    except:
+        return False
 
 def insertmq2(data1):
     # sql ="INSERT INTO mq2 (sensor_id, co) VALUES (%s, %s)", ("A", random.randint(1, 100))
     # id1 = ["living room", "Hall", "Balcony"]
     # id2 = random.choice(id1)
-    data11 = data1.split(',')
-    lpg = data11[0].split(':')[1].strip()
-    co = data11[1].split(':')[1].strip()
-    smoke = data11[2].split(':')[1].strip()
-    idvalue = data11[3].split(':')[1].strip()
-    sql = 'insert into mq2 (sensor_id, smoke,co,  lpg) values("' + str(idvalue) + '",'+ str(smoke)+','+str(co)+','+str(lpg)+');'
-    print(sql);
-    engine.execute(sql)
-    return "inserted into mq2"
+    try:
+        data11 = data1.split(',')
+        lpg = data11[0].split(':')[1].strip()
+        co = data11[1].split(':')[1].strip()
+        smoke = data11[2].split(':')[1].strip()
+        idvalue = data11[3].split(':')[1].strip()
+        sql = 'insert into mq2 (sensor_id, smoke,co,  lpg) values("' + str(idvalue) + '",'+ str(smoke)+','+str(co)+','+str(lpg)+');'
+        print(sql);
+        engine.execute(sql)
+        return True
+    except:
+        return False
 
